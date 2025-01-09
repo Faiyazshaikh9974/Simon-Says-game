@@ -1,83 +1,91 @@
+// Initialize the game level to 0
 let level = 0;
 
+// Arrays to store the game sequence and user input
 games = [];
 users = [];
 
-let color = ["palevioletred", "cadetblue", "orange", "cornflowerblue"]
+// Array of colors for the game buttons
+let color = ["palevioletred", "cadetblue", "orange", "cornflowerblue"];
 
-start = false
+// Variable to track if the game has started
+start = false;
 
-h2 = document.querySelector("h2")
+// Select the h2 element to display the level
+h2 = document.querySelector("h2");
 
-
+// Add an event listener for keypress to start the game
 document.addEventListener("keypress", function () {
     if (start == false) {
         start = true;
-        levelup()
+        levelup();
     }
-})
+});
 
+// Function to flash the game button
 function gameflash(btn) {
     btn.classList.add("flash");
     setTimeout(function () {
-        btn.classList.remove("flash")
-    }, 280)
+        btn.classList.remove("flash");
+    }, 280);
 }
 
+// Function to flash the user button
 function userflash(btn) {
     btn.classList.add("userflash");
     setTimeout(function () {
-        btn.classList.remove("userflash")
-    }, 200)
+        btn.classList.remove("userflash");
+    }, 200);
 }
 
-
+// Function to level up the game
 function levelup() {
     users = [];
-    level++
-    h2.innerText = `Level ${level}`
-    let random = Math.floor(Math.random() * 4)
+    level++;
+    h2.innerText = `Level ${level}`;
+    let random = Math.floor(Math.random() * 4);
     randomIndx = color[random];
-    let randBtn = document.querySelector(`.${randomIndx}`)
-    games.push(randomIndx)
-    console.log(games)
-    gameflash(randBtn)
+    let randBtn = document.querySelector(`.${randomIndx}`);
+    games.push(randomIndx);
+    console.log(games);
+    gameflash(randBtn);
 }
 
-function check (inx) {
-    if (games[inx]=== users[inx]){
-        if (users.length == games.length){
-            setTimeout(levelup(), 1000)
+// Function to check the user's input against the game sequence
+function check(inx) {
+    if (games[inx] === users[inx]) {
+        if (users.length == games.length) {
+            setTimeout(levelup(), 1000);
         }
-    }else {
-        h2.innerText = "Game Over Press any Key to Start Again"
-        document.querySelector("body").style.backgroundColor= "red"
-        setTimeout(function (){
-            document.querySelector("body").style.backgroundColor= "white"
-        } ,1000)
-        reset()
+    } else {
+        h2.innerText = "Game Over. Press any key to start again.";
+        document.querySelector("body").style.backgroundColor = "red";
+        setTimeout(function () {
+            document.querySelector("body").style.backgroundColor = "white";
+        }, 1000);
+        reset();
     }
-    }
+}
 
+// Function to handle button press by the user
 function btnpress() {
-    console.log("Button was pressed")
-    btn = this
-    userflash(btn)
-    userinput = btn.getAttribute("id")
-    users.push(userinput)
-    console.log(userinput)
-    check(users.length-1);
+    console.log("Button was pressed");
+    btn = this;
+    userflash(btn);
+    userinput = btn.getAttribute("id");
+    users.push(userinput);
+    console.log(userinput);
+    check(users.length - 1);
 }
 
-
-
-let allbtns = document.querySelectorAll(".btn")
-
+// Add event listeners to all game buttons
+let allbtns = document.querySelectorAll(".btn");
 for (btns of allbtns) {
-    btns.addEventListener("click", btnpress)
+    btns.addEventListener("click", btnpress);
 }
 
-function reset(){
+// Function to reset the game
+function reset() {
     start = false;
     games = [];
     users = [];
